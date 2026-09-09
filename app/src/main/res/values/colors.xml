@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="navy">#0F2744</color>
+    <color name="navy_deep">#0A1B30</color>
+    <color name="navy_soft">#17355A</color>
+    <color name="accent">#F6A623</color>
+    <color name="accent_dark">#D48816</color>
+    <color name="background">#F4F6F8</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="text_primary">#1A202C</color>
+    <color name="text_secondary">#4A5568</color>
+    <color name="text_on_navy">#E2E8F0</color>
+    <color name="divider">#E2E8F0</color>
+    <color name="priority_high">#E53E3E</color>
+    <color name="priority_medium">#DD6B20</color>
+    <color name="priority_low">#38A169</color>
+    <color name="launcher_bg">#0F2744</color>
+</resources>

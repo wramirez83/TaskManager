@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Task Manager</string>
+    <string name="app_subtitle">Gestión de tareas</string>
+    <string name="categories">Categorías</string>
+    <string name="all_tasks">Todas las tareas</string>
+    <string name="task_count">%d tareas</string>
+    <string name="empty_title">No hay tareas en esta vista</string>
+    <string name="empty_body">Usa el botón + para crear una nueva tarea.</string>
+    <string name="new_task">Nueva tarea</string>
+    <string name="edit_task">Editar tarea</string>
+    <string name="title">Título</string>
+    <string name="description">Descripción</string>
+    <string name="category">Categoría</string>
+    <string name="priority">Prioridad</string>
+    <string name="due_date">Fecha de entrega</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Eliminar</string>
+    <string name="delete_task">Eliminar tarea</string>
+    <string name="delete_confirm">¿Eliminar “%1$s”?</string>
+    <string name="title_required">El título es obligatorio</string>
+    <string name="no_categories">No hay categorías disponibles</string>
+    <string name="task_saved">Tarea guardada</string>
+    <string name="no_due_date">Sin fecha</string>
+    <string name="add_task">Agregar tarea</string>
+    <string name="delete_content">Eliminar</string>
+</resources>

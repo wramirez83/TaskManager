@@ -15,29 +15,17 @@ public interface TaskDao {
     @Query("SELECT * FROM tasks ORDER BY completed ASC, priority DESC, dueDate ASC, createdAt DESC")
     LiveData<List<Task>> observeAll();
 
-    @Query("SELECT * FROM tasks WHERE completed = 0 ORDER BY priority DESC, dueDate ASC")
-    LiveData<List<Task>> observePending();
-
-    @Query("SELECT * FROM tasks WHERE completed = 1 ORDER BY createdAt DESC")
+    @Query("SELECT * FROM tasks WHERE completed = 1 ORDER BY completedAt DESC")
     LiveData<List<Task>> observeCompleted();
 
-    @Query("SELECT * FROM tasks WHERE categoryId = :categoryId ORDER BY completed ASC, priority DESC")
-    LiveData<List<Task>> observeByCategory(long categoryId);
+    @Query("SELECT * FROM tasks WHERE dueDate >= :start AND dueDate < :end ORDER BY priority DESC, dueDate ASC")
+    LiveData<List<Task>> observeDueBetween(long start, long end);
 
-    @Query("SELECT COUNT(*) FROM tasks")
-    LiveData<Integer> observeTotalCount();
+    @Query("SELECT * FROM tasks WHERE priority = :priority ORDER BY completed ASC, dueDate ASC")
+    LiveData<List<Task>> observeByPriority(int priority);
 
-    @Query("SELECT COUNT(*) FROM tasks WHERE completed = 0")
-    LiveData<Integer> observePendingCount();
-
-    @Query("SELECT COUNT(*) FROM tasks WHERE completed = 1")
-    LiveData<Integer> observeCompletedCount();
-
-    @Query("SELECT COUNT(*) FROM tasks WHERE categoryId = :categoryId")
-    LiveData<Integer> observeCountByCategory(long categoryId);
-
-    @Query("SELECT * FROM tasks WHERE id = :id LIMIT 1")
-    Task findById(long id);
+    @Query("SELECT * FROM tasks WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%' ORDER BY createdAt DESC")
+    LiveData<List<Task>> observeSearch(String query);
 
     @Insert
     long insert(Task task);

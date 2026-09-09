@@ -4,38 +4,39 @@ public class TaskFilter {
 
     public enum Kind {
         ALL,
-        PENDING,
+        TODAY,
+        IMPORTANT,
         COMPLETED,
-        CATEGORY
+        SEARCH
     }
 
     public final Kind kind;
-    public final long categoryId;
     public final String title;
+    public final String query;
 
-    private TaskFilter(Kind kind, long categoryId, String title) {
+    private TaskFilter(Kind kind, String title, String query) {
         this.kind = kind;
-        this.categoryId = categoryId;
         this.title = title;
+        this.query = query;
     }
 
     public static TaskFilter all() {
-        return new TaskFilter(Kind.ALL, -1, "Todas las tareas");
+        return new TaskFilter(Kind.ALL, "Lista de tareas", "");
     }
 
-    public static TaskFilter pending() {
-        return new TaskFilter(Kind.PENDING, -1, "Pendientes");
+    public static TaskFilter today() {
+        return new TaskFilter(Kind.TODAY, "Hoy", "");
+    }
+
+    public static TaskFilter important() {
+        return new TaskFilter(Kind.IMPORTANT, "Importantes", "");
     }
 
     public static TaskFilter completed() {
-        return new TaskFilter(Kind.COMPLETED, -1, "Completadas");
+        return new TaskFilter(Kind.COMPLETED, "Completadas", "");
     }
 
-    public static TaskFilter category(long categoryId, String name) {
-        return new TaskFilter(Kind.CATEGORY, categoryId, name);
-    }
-
-    public boolean matches(TaskFilter other) {
-        return other != null && kind == other.kind && categoryId == other.categoryId;
+    public static TaskFilter search(String query) {
+        return new TaskFilter(Kind.SEARCH, "Búsqueda", query);
     }
 }

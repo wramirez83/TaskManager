@@ -12,7 +12,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Category.class, Task.class}, version = 1, exportSchema = false)
+import co.edu.poli.taskmanager.util.DateUtils;
+
+@Database(entities = {Category.class, Task.class, Photo.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;
@@ -22,6 +24,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CategoryDao categoryDao();
 
     public abstract TaskDao taskDao();
+
+    public abstract PhotoDao photoDao();
 
     public static AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
@@ -33,7 +37,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     "task_manager.db"
                             )
                             .fallbackToDestructiveMigration()
-                            .addCallback(SEED)
+                            .addCallback(new SeedCallback(context.getApplicationContext()))
                             .build();
                 }
             }
@@ -41,7 +45,13 @@ public abstract class AppDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static final Callback SEED = new Callback() {
+    private static final class SeedCallback extends Callback {
+        private final Context context;
+
+        SeedCallback(Context context) {
+            this.context = context;
+        }
+
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
@@ -52,36 +62,38 @@ public abstract class AppDatabase extends RoomDatabase {
                 }
                 CategoryDao categories = database.categoryDao();
                 TaskDao tasks = database.taskDao();
+                PhotoDao photos = database.photoDao();
 
-                long work = categories.insert(new Category("Trabajo", Color.parseColor("#2B6CB0")));
-                long personal = categories.insert(new Category("Personal", Color.parseColor("#38A169")));
-                long study = categories.insert(new Category("Estudio", Color.parseColor("#D69E2E")));
-                long university = categories.insert(new Category("Universidad", Color.parseColor("#805AD5")));
+                long work = categories.insert(new Category("Trabajo", Color.parseColor("#1A73E8")));
+                long personal = categories.insert(new Category("Personal", Color.parseColor("#1A73E8")));
+                long urgent = categories.insert(new Category("Urgente", Color.parseColor("#E53935")));
+                long study = categories.insert(new Category("Estudio", Color.parseColor("#1A73E8")));
 
                 long now = System.currentTimeMillis();
+                long today = DateUtils.startOfDay(now) + 12L * 60L * 60L * 1000L;
                 long day = 24L * 60L * 60L * 1000L;
 
-                tasks.insert(new Task(
-                        "Entregar informe de avance",
-                        "Redactar y subir el informe de la semana 3 al aula virtual.",
-                        university, Task.PRIORITY_HIGH, false, now + day, now
-                ));
-                tasks.insert(new Task(
-                        "Revisar prototipo en Figma",
-                        "Validar la arquitectura de dos paneles y los estados de cada tarea.",
-                        work, Task.PRIORITY_MEDIUM, false, now + (2 * day), now
-                ));
-                tasks.insert(new Task(
-                        "Organizar pendientes personales",
-                        "Separar compras, citas y recordatorios de la semana.",
-                        personal, Task.PRIORITY_LOW, true, now - day, now - (2 * day)
-                ));
-                tasks.insert(new Task(
-                        "Estudiar Fragments y LiveData",
-                        "Repasar el ciclo de vida de los fragmentos y la observación de Room.",
-                        study, Task.PRIORITY_HIGH, false, now + (3 * day), now
-                ));
+                tasks.insert(new Task("Revisar prototipo en Figma", "Validar las 7 pantallas del diseño.", work, Task.PRIORITY_HIGH, false, today, now, 0));
+                tasks.insert(new Task("Entregar informe de avance", "Subir el informe de la semana 3.", study, Task.PRIORITY_HIGH, false, today + day, now, 0));
+                tasks.insert(new Task("Organizar pendientes personales", "Separar compras y citas de la semana.", personal, Task.PRIORITY_LOW, true, today - day, now - (2 * day), now - 3600000));
+                tasks.insert(new Task("Estudiar Fragments y LiveData", "Repasar ciclo de vida y observación de Room.", study, Task.PRIORITY_HIGH, false, today + (2 * day), now, 0));
+                tasks.insert(new Task("Preparar reunión de equipo", "Agenda, avances y bloqueos.", work, Task.PRIORITY_MEDIUM, false, today, now, 0));
+                tasks.insert(new Task("Actualizar tablero Kanban", "Mover tarjetas al estado correcto.", work, Task.PRIORITY_MEDIUM, true, today, now - day, now - 7200000));
+                tasks.insert(new Task("Pagar factura de servicios", "Energía y plan de datos.", personal, Task.PRIORITY_MEDIUM, false, today - (2 * day), now - (3 * day), 0));
+                tasks.insert(new Task("Enviar correos pendientes", "Responder a docentes y compañeros.", urgent, Task.PRIORITY_HIGH, true, today, now - day, now - 1800000));
+                tasks.insert(new Task("Leer guía de productividad", "Técnica Pomodoro y gestión del tiempo.", study, Task.PRIORITY_LOW, true, today, now - day, now - 5400000));
+                tasks.insert(new Task("Backup del proyecto", "Subir el código al repositorio.", work, Task.PRIORITY_MEDIUM, true, today, now - day, now - 900000));
+                tasks.insert(new Task("Comprar útiles", "Cuaderno y marcadores para el taller.", personal, Task.PRIORITY_LOW, false, today + (3 * day), now, 0));
+                tasks.insert(new Task("Ensayar presentación", "Demo de la app Task Manager.", urgent, Task.PRIORITY_HIGH, false, today - day, now - (2 * day), 0));
+                tasks.insert(new Task("Revisar estadísticas", "Confirmar tareas vencidas y completadas.", work, Task.PRIORITY_MEDIUM, true, today, now - day, now - 1200000));
+                tasks.insert(new Task("Subir fotos de evidencia", "Capturas del tablero y la reunión.", personal, Task.PRIORITY_LOW, true, today, now - day, now - 2400000));
+                tasks.insert(new Task("Ver video tutorial", "Cómo organizar tus tareas.", study, Task.PRIORITY_MEDIUM, false, today + day, now, 0));
+
+                String pkg = context.getPackageName();
+                for (String res : new String[]{"photo_1", "photo_2", "photo_3", "photo_4", "photo_5", "photo_6"}) {
+                    photos.insert(new Photo("android.resource://" + pkg + "/drawable/" + res, now));
+                }
             });
         }
-    };
+    }
 }

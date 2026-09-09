@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.TaskManager" parent="Theme.Material3.Light.NoActionBar">
-        <item name="colorPrimary">@color/navy</item>
-        <item name="colorPrimaryDark">@color/navy_deep</item>
-        <item name="colorSecondary">@color/accent</item>
-        <item name="android:statusBarColor">@color/navy_deep</item>
-        <item name="android:navigationBarColor">@color/background</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorSecondary">@color/primary</item>
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:navigationBarColor">@color/surface</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="bottomNavigationStyle">@style/Widget.TaskManager.BottomNav</item>
+    </style>
+
+    <style name="Widget.TaskManager.BottomNav" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">@color/surface</item>
+        <item name="itemIconTint">@color/nav_color</item>
+        <item name="itemTextColor">@color/nav_color</item>
+        <item name="elevation">8dp</item>
+    </style>
+
+    <style name="Widget.TaskManager.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/primary</item>
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="navigationIconTint">@android:color/white</item>
     </style>
 </resources>

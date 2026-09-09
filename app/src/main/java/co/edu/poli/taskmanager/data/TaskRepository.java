@@ -6,15 +6,19 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import co.edu.poli.taskmanager.util.DateUtils;
+
 public class TaskRepository {
 
     private final CategoryDao categoryDao;
     private final TaskDao taskDao;
+    private final PhotoDao photoDao;
 
     public TaskRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
         categoryDao = db.categoryDao();
         taskDao = db.taskDao();
+        photoDao = db.photoDao();
     }
 
     public LiveData<List<Category>> observeCategories() {
@@ -25,28 +29,25 @@ public class TaskRepository {
         return taskDao.observeAll();
     }
 
-    public LiveData<List<Task>> observePending() {
-        return taskDao.observePending();
-    }
-
     public LiveData<List<Task>> observeCompleted() {
         return taskDao.observeCompleted();
     }
 
-    public LiveData<List<Task>> observeByCategory(long categoryId) {
-        return taskDao.observeByCategory(categoryId);
+    public LiveData<List<Task>> observeToday() {
+        long start = DateUtils.startOfDay(System.currentTimeMillis());
+        return taskDao.observeDueBetween(start, DateUtils.endOfDay(start));
     }
 
-    public LiveData<Integer> observeTotalCount() {
-        return taskDao.observeTotalCount();
+    public LiveData<List<Task>> observeImportant() {
+        return taskDao.observeByPriority(Task.PRIORITY_HIGH);
     }
 
-    public LiveData<Integer> observePendingCount() {
-        return taskDao.observePendingCount();
+    public LiveData<List<Task>> observeSearch(String query) {
+        return taskDao.observeSearch(query);
     }
 
-    public LiveData<Integer> observeCompletedCount() {
-        return taskDao.observeCompletedCount();
+    public LiveData<List<Photo>> observePhotos() {
+        return photoDao.observeAll();
     }
 
     public void insert(Task task) {
@@ -61,7 +62,11 @@ public class TaskRepository {
         AppDatabase.IO.execute(() -> taskDao.delete(task));
     }
 
-    public void insertCategory(Category category) {
-        AppDatabase.IO.execute(() -> categoryDao.insert(category));
+    public void insertPhoto(Photo photo) {
+        AppDatabase.IO.execute(() -> photoDao.insert(photo));
+    }
+
+    public void deletePhoto(Photo photo) {
+        AppDatabase.IO.execute(() -> photoDao.delete(photo));
     }
 }

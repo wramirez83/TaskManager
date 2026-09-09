@@ -1,7 +1,6 @@
 package co.edu.poli.taskmanager.ui;
 
 import android.app.Application;
-import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,8 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.edu.poli.taskmanager.data.Category;
+import co.edu.poli.taskmanager.data.Photo;
 import co.edu.poli.taskmanager.data.Task;
 import co.edu.poli.taskmanager.data.TaskRepository;
+import co.edu.poli.taskmanager.util.DateUtils;
 
 public class TaskViewModel extends AndroidViewModel {
 
@@ -23,68 +24,58 @@ public class TaskViewModel extends AndroidViewModel {
     private final MutableLiveData<TaskFilter> filter = new MutableLiveData<>(TaskFilter.all());
     private final LiveData<List<Task>> visibleTasks;
     private final LiveData<List<Category>> categories;
-    private final MediatorLiveData<List<MenuOption>> menuOptions = new MediatorLiveData<>();
+    private final LiveData<List<Photo>> photos;
+    private final MediatorLiveData<TaskStats> stats = new MediatorLiveData<>();
     private final MutableLiveData<Task> editingTask = new MutableLiveData<>(null);
-    private final MutableLiveData<Boolean> showingForm = new MutableLiveData<>(false);
-
-    private List<Category> latestCategories = new ArrayList<>();
-    private int totalCount;
-    private int pendingCount;
-    private int completedCount;
 
     public TaskViewModel(@NonNull Application application) {
         super(application);
         repository = new TaskRepository(application);
         categories = repository.observeCategories();
+        photos = repository.observePhotos();
         visibleTasks = Transformations.switchMap(filter, current -> {
             switch (current.kind) {
-                case PENDING:
-                    return repository.observePending();
+                case TODAY:
+                    return repository.observeToday();
+                case IMPORTANT:
+                    return repository.observeImportant();
                 case COMPLETED:
                     return repository.observeCompleted();
-                case CATEGORY:
-                    return repository.observeByCategory(current.categoryId);
+                case SEARCH:
+                    return repository.observeSearch(current.query);
                 case ALL:
                 default:
                     return repository.observeAllTasks();
             }
         });
-
-        LiveData<Integer> totals = repository.observeTotalCount();
-        LiveData<Integer> pending = repository.observePendingCount();
-        LiveData<Integer> completed = repository.observeCompletedCount();
-
-        menuOptions.addSource(categories, value -> {
-            latestCategories = value != null ? value : new ArrayList<>();
-            rebuildMenu();
-        });
-        menuOptions.addSource(totals, value -> {
-            totalCount = value != null ? value : 0;
-            rebuildMenu();
-        });
-        menuOptions.addSource(pending, value -> {
-            pendingCount = value != null ? value : 0;
-            rebuildMenu();
-        });
-        menuOptions.addSource(completed, value -> {
-            completedCount = value != null ? value : 0;
-            rebuildMenu();
-        });
+        stats.addSource(repository.observeAllTasks(), this::rebuildStats);
     }
 
-    private void rebuildMenu() {
-        List<MenuOption> options = new ArrayList<>();
-        options.add(new MenuOption(TaskFilter.all(), Color.parseColor("#63B3ED"), totalCount));
-        options.add(new MenuOption(TaskFilter.pending(), Color.parseColor("#ED8936"), pendingCount));
-        options.add(new MenuOption(TaskFilter.completed(), Color.parseColor("#48BB78"), completedCount));
-        for (Category category : latestCategories) {
-            options.add(new MenuOption(
-                    TaskFilter.category(category.id, category.name),
-                    category.color,
-                    0
-            ));
+    private void rebuildStats(List<Task> tasks) {
+        TaskStats result = new TaskStats();
+        if (tasks == null) {
+            stats.setValue(result);
+            return;
         }
-        menuOptions.setValue(options);
+        long start = DateUtils.startOfDay(System.currentTimeMillis());
+        long end = DateUtils.endOfDay(start);
+        result.total = tasks.size();
+        for (Task task : tasks) {
+            if (task.completed && task.completedAt >= start && task.completedAt < end) {
+                result.completedToday++;
+            }
+            if (task.priority == Task.PRIORITY_HIGH) {
+                result.high++;
+            } else if (task.priority == Task.PRIORITY_MEDIUM) {
+                result.medium++;
+            } else {
+                result.low++;
+            }
+            if (!task.completed && task.dueDate > 0 && task.dueDate < start) {
+                result.overdue++;
+            }
+        }
+        stats.setValue(result);
     }
 
     public LiveData<List<Task>> getVisibleTasks() {
@@ -95,16 +86,16 @@ public class TaskViewModel extends AndroidViewModel {
         return categories;
     }
 
-    public LiveData<List<MenuOption>> getMenuOptions() {
-        return menuOptions;
+    public LiveData<List<Photo>> getPhotos() {
+        return photos;
+    }
+
+    public LiveData<TaskStats> getStats() {
+        return stats;
     }
 
     public LiveData<TaskFilter> getFilter() {
         return filter;
-    }
-
-    public LiveData<Boolean> getShowingForm() {
-        return showingForm;
     }
 
     public LiveData<Task> getEditingTask() {
@@ -113,30 +104,22 @@ public class TaskViewModel extends AndroidViewModel {
 
     public void selectFilter(TaskFilter selected) {
         filter.setValue(selected);
-        showingForm.setValue(false);
         editingTask.setValue(null);
     }
 
     public void startCreate() {
         editingTask.setValue(null);
-        showingForm.setValue(true);
     }
 
     public void startEdit(Task task) {
         editingTask.setValue(task);
-        showingForm.setValue(true);
-    }
-
-    public void cancelForm() {
-        showingForm.setValue(false);
-        editingTask.setValue(null);
     }
 
     public void saveTask(String title, String description, long categoryId, int priority, long dueDate) {
         Task existing = editingTask.getValue();
         long now = System.currentTimeMillis();
         if (existing == null) {
-            repository.insert(new Task(title, description, categoryId, priority, false, dueDate, now));
+            repository.insert(new Task(title, description, categoryId, priority, false, dueDate, now, 0));
         } else {
             existing.title = title;
             existing.description = description;
@@ -145,28 +128,37 @@ public class TaskViewModel extends AndroidViewModel {
             existing.dueDate = dueDate;
             repository.update(existing);
         }
-        showingForm.setValue(false);
         editingTask.setValue(null);
     }
 
     public void toggleCompleted(Task task) {
         task.completed = !task.completed;
+        task.completedAt = task.completed ? System.currentTimeMillis() : 0;
         repository.update(task);
     }
 
     public void deleteTask(Task task) {
         repository.delete(task);
-        if (Boolean.TRUE.equals(showingForm.getValue())) {
-            cancelForm();
+        Task editing = editingTask.getValue();
+        if (editing != null && editing.id == task.id) {
+            editingTask.setValue(null);
         }
     }
 
+    public void addPhoto(String uri) {
+        repository.insertPhoto(new Photo(uri, System.currentTimeMillis()));
+    }
+
     public Category findCategory(long id) {
-        for (Category category : latestCategories) {
+        List<Category> list = categories.getValue();
+        if (list == null) {
+            return null;
+        }
+        for (Category category : list) {
             if (category.id == id) {
                 return category;
             }
         }
-        return null;
+        return list.isEmpty() ? null : list.get(0);
     }
 }

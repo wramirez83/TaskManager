@@ -56,6 +56,9 @@ public class CreateTaskFragment extends Fragment {
     }
 
     private void bindCategories(List<Category> categories) {
+        if (binding == null) {
+            return;
+        }
         binding.categoryGroup.removeAllViews();
         if (categories == null || categories.isEmpty()) {
             return;
@@ -64,22 +67,23 @@ public class CreateTaskFragment extends Fragment {
         long selectedId = editing != null ? editing.categoryId : categories.get(0).id;
         for (Category category : categories) {
             Chip chip = new Chip(requireContext());
+            chip.setId(View.generateViewId());
             chip.setText(category.name);
             chip.setCheckable(true);
-            chip.setChecked(category.id == selectedId);
             chip.setTag(category.id);
             chip.setChipBackgroundColorResource(R.color.primary_soft);
             chip.setChipStrokeColorResource(R.color.primary);
             chip.setChipStrokeWidth(2f);
             chip.setTextColor(requireContext().getColor(R.color.primary));
             binding.categoryGroup.addView(chip);
-        }
-        if (binding.categoryGroup.getCheckedChipId() == View.NO_ID && binding.categoryGroup.getChildCount() > 0) {
-            ((Chip) binding.categoryGroup.getChildAt(0)).setChecked(true);
+            chip.setChecked(category.id == selectedId);
         }
     }
 
     private void bindTask(Task task) {
+        if (binding == null) {
+            return;
+        }
         if (task == null) {
             selectedDueDate = 0;
             binding.inputTitle.setText("");
@@ -91,7 +95,9 @@ public class CreateTaskFragment extends Fragment {
         binding.inputTitle.setText(task.title);
         binding.inputDescription.setText(task.description);
         selectedDueDate = task.dueDate;
-        binding.inputDate.setText(task.dueDate > 0 ? DateUtils.shortDate(task.dueDate) : getString(R.string.select_date));
+        binding.inputDate.setText(task.dueDate > 0
+                ? DateUtils.shortDate(task.dueDate)
+                : getString(R.string.select_date));
         if (task.priority == Task.PRIORITY_HIGH) {
             binding.chipHigh.setChecked(true);
         } else if (task.priority == Task.PRIORITY_LOW) {
@@ -107,6 +113,9 @@ public class CreateTaskFragment extends Fragment {
                 .setSelection(selectedDueDate > 0 ? selectedDueDate : MaterialDatePicker.todayInUtcMilliseconds())
                 .build();
         picker.addOnPositiveButtonClickListener(selection -> {
+            if (binding == null) {
+                return;
+            }
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
             calendar.setTimeInMillis(selection);
             selectedDueDate = calendar.getTimeInMillis();
@@ -116,9 +125,17 @@ public class CreateTaskFragment extends Fragment {
     }
 
     private void save() {
+        if (binding == null) {
+            return;
+        }
         String title = String.valueOf(binding.inputTitle.getText()).trim();
         if (title.isEmpty()) {
             binding.inputTitle.setError(getString(R.string.title_required));
+            return;
+        }
+        long categoryId = selectedCategoryId();
+        if (categoryId <= 0) {
+            Toast.makeText(requireContext(), R.string.category_required, Toast.LENGTH_SHORT).show();
             return;
         }
         String description = String.valueOf(binding.inputDescription.getText()).trim();
@@ -128,23 +145,28 @@ public class CreateTaskFragment extends Fragment {
         } else if (binding.chipLow.isChecked()) {
             priority = Task.PRIORITY_LOW;
         }
-        long categoryId = 0;
-        for (int i = 0; i < binding.categoryGroup.getChildCount(); i++) {
-            Chip chip = (Chip) binding.categoryGroup.getChildAt(i);
-            if (chip.isChecked()) {
-                categoryId = (long) chip.getTag();
-                break;
-            }
-        }
-        if (categoryId == 0) {
-            List<Category> categories = viewModel.getCategories().getValue();
-            if (categories != null && !categories.isEmpty()) {
-                categoryId = categories.get(0).id;
-            }
-        }
         viewModel.saveTask(title, description, categoryId, priority, selectedDueDate);
         Toast.makeText(requireContext(), R.string.task_saved, Toast.LENGTH_SHORT).show();
         ((MainActivity) requireActivity()).openTasks(TaskFilter.all());
+    }
+
+    private long selectedCategoryId() {
+        int checkedId = binding.categoryGroup.getCheckedChipId();
+        View checked = binding.categoryGroup.findViewById(checkedId);
+        if (checked != null && checked.getTag() instanceof Number) {
+            return ((Number) checked.getTag()).longValue();
+        }
+        for (int i = 0; i < binding.categoryGroup.getChildCount(); i++) {
+            Chip chip = (Chip) binding.categoryGroup.getChildAt(i);
+            if (chip.isChecked() && chip.getTag() instanceof Number) {
+                return ((Number) chip.getTag()).longValue();
+            }
+        }
+        List<Category> categories = viewModel.getCategories().getValue();
+        if (categories != null && !categories.isEmpty()) {
+            return categories.get(0).id;
+        }
+        return 0;
     }
 
     @Override

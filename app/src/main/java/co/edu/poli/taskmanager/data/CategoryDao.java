@@ -21,6 +21,9 @@ public interface CategoryDao {
     @Query("SELECT * FROM categories WHERE id = :id LIMIT 1")
     Category findById(long id);
 
+    @Query("SELECT COUNT(*) FROM categories")
+    int countSync();
+
     @Insert
     long insert(Category category);
 

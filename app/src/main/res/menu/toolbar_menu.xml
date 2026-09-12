@@ -7,16 +7,4 @@
         android:title="@string/search"
         app:iconTint="@android:color/white"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/action_gallery"
-        android:title="@string/gallery"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_video"
-        android:title="@string/video"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_browser"
-        android:title="@string/browser"
-        app:showAsAction="never" />
 </menu>

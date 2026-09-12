@@ -51,6 +51,7 @@
     <string name="resources_title">Recursos de Productividad</string>
     <string name="browser_url">taskmanager.app/recursos</string>
     <string name="title_required">El título es obligatorio</string>
+    <string name="category_required">Selecciona una categoría</string>
     <string name="task_saved">Tarea guardada</string>
     <string name="delete_task">Eliminar tarea</string>
     <string name="delete_confirm">¿Eliminar “%1$s”?</string>
@@ -63,4 +64,6 @@
     <string name="urgent">Urgente</string>
     <string name="study">Estudio</string>
     <string name="avatar_initials">MU</string>
+    <string name="nav_open">Abrir menú</string>
+    <string name="nav_close">Cerrar menú</string>
 </resources>

@@ -1,5 +1,6 @@
 package co.edu.poli.taskmanager;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Menu;
@@ -7,9 +8,12 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -38,50 +42,76 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         viewModel = new ViewModelProvider(this).get(TaskViewModel.class);
 
-        binding.bottomNav.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (id == R.id.nav_home) {
-                show(new HomeFragment(), getString(R.string.app_name));
-                return true;
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this,
+                binding.drawerLayout,
+                binding.toolbar,
+                R.string.nav_open,
+                R.string.nav_close
+        );
+        toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
+        binding.drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        binding.navView.setNavigationItemSelectedListener(item -> {
+            navigate(item.getItemId());
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                }
             }
-            if (id == R.id.nav_tasks) {
-                viewModel.selectFilter(TaskFilter.all());
-                show(new TaskListFragment(), getString(R.string.task_list));
-                return true;
-            }
-            if (id == R.id.nav_create) {
-                openCreate();
-                return true;
-            }
-            if (id == R.id.nav_stats) {
-                show(new StatsFragment(), getString(R.string.stats));
-                return true;
-            }
-            return false;
         });
 
         if (savedInstanceState == null) {
             show(new HomeFragment(), getString(R.string.app_name));
-            binding.bottomNav.setSelectedItemId(R.id.nav_home);
+            binding.navView.setCheckedItem(R.id.nav_home);
         }
     }
 
     public void openTasks(TaskFilter filter) {
         viewModel.selectFilter(filter);
         show(new TaskListFragment(), filter.title);
-        binding.bottomNav.getMenu().findItem(R.id.nav_tasks).setChecked(true);
+        binding.navView.setCheckedItem(R.id.nav_tasks);
     }
 
     public void openCreate() {
         viewModel.startCreate();
         show(new CreateTaskFragment(), getString(R.string.new_task));
-        binding.bottomNav.getMenu().findItem(R.id.nav_create).setChecked(true);
+        binding.navView.setCheckedItem(R.id.nav_create);
     }
 
     public void openEdit(Task task) {
         viewModel.startEdit(task);
         show(new CreateTaskFragment(), getString(R.string.edit_task));
-        binding.bottomNav.getMenu().findItem(R.id.nav_create).setChecked(true);
+        binding.navView.setCheckedItem(R.id.nav_create);
+    }
+
+    private void navigate(int itemId) {
+        if (itemId == R.id.nav_home) {
+            show(new HomeFragment(), getString(R.string.app_name));
+        } else if (itemId == R.id.nav_tasks) {
+            viewModel.selectFilter(TaskFilter.all());
+            show(new TaskListFragment(), getString(R.string.task_list));
+        } else if (itemId == R.id.nav_create) {
+            openCreate();
+        } else if (itemId == R.id.nav_stats) {
+            show(new StatsFragment(), getString(R.string.stats));
+        } else if (itemId == R.id.nav_gallery) {
+            show(new GalleryFragment(), getString(R.string.gallery));
+        } else if (itemId == R.id.nav_video) {
+            show(new VideoFragment(), getString(R.string.video));
+        } else if (itemId == R.id.nav_browser) {
+            show(new BrowserFragment(), getString(R.string.browser));
+        }
     }
 
     private void show(Fragment fragment, String title) {
@@ -99,21 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_search) {
+        if (item.getItemId() == R.id.action_search) {
             promptSearch();
-            return true;
-        }
-        if (id == R.id.action_gallery) {
-            show(new GalleryFragment(), getString(R.string.gallery));
-            return true;
-        }
-        if (id == R.id.action_video) {
-            show(new VideoFragment(), getString(R.string.video));
-            return true;
-        }
-        if (id == R.id.action_browser) {
-            show(new BrowserFragment(), getString(R.string.browser));
             return true;
         }
         return super.onOptionsItemSelected(item);

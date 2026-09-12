@@ -2,6 +2,8 @@ package co.edu.poli.taskmanager.data;
 
 import android.app.Application;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
@@ -51,11 +53,23 @@ public class TaskRepository {
     }
 
     public void insert(Task task) {
-        AppDatabase.IO.execute(() -> taskDao.insert(task));
+        AppDatabase.IO.execute(() -> {
+            try {
+                taskDao.insert(task);
+            } catch (Exception e) {
+                Log.e("TaskRepository", "No se pudo guardar la tarea", e);
+            }
+        });
     }
 
     public void update(Task task) {
-        AppDatabase.IO.execute(() -> taskDao.update(task));
+        AppDatabase.IO.execute(() -> {
+            try {
+                taskDao.update(task);
+            } catch (Exception e) {
+                Log.e("TaskRepository", "No se pudo actualizar la tarea", e);
+            }
+        });
     }
 
     public void delete(Task task) {

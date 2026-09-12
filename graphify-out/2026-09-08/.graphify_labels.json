@@ -11,5 +11,11 @@
   "9": "gradlew",
   "10": "build.gradle",
   "11": "build.gradle",
-  "12": "settings.gradle"
+  "12": "settings.gradle",
+  "13": "Photo",
+  "14": "StatsFragment.java",
+  "15": "DonutChartView",
+  "16": "TaskListFragment.java",
+  "17": "TaskAdapter",
+  "18": "TaskViewModel"
 }

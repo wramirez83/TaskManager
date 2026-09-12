@@ -5,18 +5,18 @@
     "semantic_hash": ""
   },
   "app/build.gradle": {
-    "mtime": 1788842539.0934587,
-    "ast_hash": "ad37be619a261ac70a800fa47276adda",
+    "mtime": 1788922385.8879209,
+    "ast_hash": "530506ed8daa2c8f043d6f92b55f7228",
     "semantic_hash": ""
   },
   "app/src/main/java/co/edu/poli/taskmanager/MainActivity.java": {
-    "mtime": 1788921601.3522217,
-    "ast_hash": "e992423b34d99fa52ed7345a1753c874",
+    "mtime": 1788922385.8110864,
+    "ast_hash": "9c3bd89fe74085d7ae875e61317a0da4",
     "semantic_hash": ""
   },
   "app/src/main/java/co/edu/poli/taskmanager/data/AppDatabase.java": {
-    "mtime": 1788921413.561786,
-    "ast_hash": "05214c10eac630197ed27f32d4cdfd68",
+    "mtime": 1788922718.0318115,
+    "ast_hash": "95c37341f37f25623c7c782d0656c07f",
     "semantic_hash": ""
   },
   "app/src/main/java/co/edu/poli/taskmanager/data/Category.java": {
@@ -25,8 +25,8 @@
     "semantic_hash": ""
   },
   "app/src/main/java/co/edu/poli/taskmanager/data/CategoryDao.java": {
-    "mtime": 1788842402.0399735,
-    "ast_hash": "e577bafc1ab1f033c79532f4c39b1097",
+    "mtime": 1788922718.0305805,
+    "ast_hash": "f2ebf36fb25b431d8d48a15e0fb9b9e4",
     "semantic_hash": ""
   },
   "app/src/main/java/co/edu/poli/taskmanager/data/Task.java": {
@@ -40,8 +40,8 @@
     "semantic_hash": ""
   },
   "app/src/main/java/co/edu/poli/taskmanager/data/TaskRepository.java": {
-    "mtime": 1788921414.9602113,
-    "ast_hash": "89bc5c5a9c33cd6a054011d37dea316e",
+    "mtime": 1788922594.5559182,
+    "ast_hash": "db12be29ee38dc529d0442e48ec0b64f",
     "semantic_hash": ""
   },
   "app/src/main/java/co/edu/poli/taskmanager/ui/TaskAdapter.java": {
@@ -80,8 +80,8 @@
     "semantic_hash": ""
   },
   "app/src/main/java/co/edu/poli/taskmanager/data/PhotoDao.java": {
-    "mtime": 1788921396.8333864,
-    "ast_hash": "b3694d00d7e17562aff6cbe829a473c6",
+    "mtime": 1788922710.1091435,
+    "ast_hash": "35b710dd255177bbf32c8a84af0a475b",
     "semantic_hash": ""
   },
   "app/src/main/java/co/edu/poli/taskmanager/ui/BrowserFragment.java": {
@@ -90,8 +90,8 @@
     "semantic_hash": ""
   },
   "app/src/main/java/co/edu/poli/taskmanager/ui/CreateTaskFragment.java": {
-    "mtime": 1788921656.8924549,
-    "ast_hash": "e04e805e44bf39455d8f67472b87aebe",
+    "mtime": 1788922593.1506746,
+    "ast_hash": "7407c39026e7f753a6a921260cf07c1f",
     "semantic_hash": ""
   },
   "app/src/main/java/co/edu/poli/taskmanager/ui/DonutChartView.java": {

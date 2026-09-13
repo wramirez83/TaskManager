@@ -56,10 +56,10 @@ public abstract class AppDatabase extends RoomDatabase {
         CategoryDao categories = categoryDao();
         TaskDao tasks = taskDao();
 
-        long work = categories.insert(new Category("Trabajo", Color.parseColor("#1A73E8")));
-        long personal = categories.insert(new Category("Personal", Color.parseColor("#1A73E8")));
-        long urgent = categories.insert(new Category("Urgente", Color.parseColor("#E53935")));
-        long study = categories.insert(new Category("Estudio", Color.parseColor("#1A73E8")));
+        long work = categories.insert(new Category("Trabajo", Color.parseColor("#007AFF")));
+        long personal = categories.insert(new Category("Personal", Color.parseColor("#007AFF")));
+        long urgent = categories.insert(new Category("Urgente", Color.parseColor("#FF3B30")));
+        long study = categories.insert(new Category("Estudio", Color.parseColor("#007AFF")));
 
         long now = System.currentTimeMillis();
         long today = DateUtils.startOfDay(now) + 12L * 60L * 60L * 1000L;

@@ -30,7 +30,7 @@ public final class DateUtils {
     }
 
     public static String greetingDate() {
-        String raw = new SimpleDateFormat("EEEE, d 'de' MMMM", ES).format(new Date());
+        String raw = new SimpleDateFormat("EEE d MMM yyyy", ES).format(new Date());
         return raw.substring(0, 1).toUpperCase(ES) + raw.substring(1);
     }
 
@@ -39,6 +39,22 @@ public final class DateUtils {
             return "Sin fecha";
         }
         return new SimpleDateFormat("d MMM yyyy", ES).format(new Date(millis));
+    }
+
+    public static String taskDate(long millis) {
+        if (millis <= 0) {
+            return "Sin fecha";
+        }
+        long start = startOfDay(System.currentTimeMillis());
+        long tomorrow = start + 24L * 60L * 60L * 1000L;
+        String time = new SimpleDateFormat("HH:mm", ES).format(new Date(millis));
+        if (millis >= start && millis < endOfDay(start)) {
+            return "Hoy, " + time;
+        }
+        if (millis >= tomorrow && millis < endOfDay(tomorrow)) {
+            return "Mañana, " + time;
+        }
+        return new SimpleDateFormat("d MMM, HH:mm", ES).format(new Date(millis));
     }
 
     public static boolean isToday(long millis) {

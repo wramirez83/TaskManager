@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
     app:cardBackgroundColor="@color/surface"
-    app:cardCornerRadius="16dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="0dp"
     app:strokeColor="@color/divider"
     app:strokeWidth="1dp">
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:gravity="top"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="16dp">
 
         <CheckBox
             android:id="@+id/task_check"
@@ -34,16 +34,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_primary"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/task_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:textColor="@color/text_secondary"
-                android:textSize="13sp" />
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,8 +55,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_calendar"
                     app:tint="@color/text_secondary" />
@@ -63,20 +65,21 @@
                     android:id="@+id/task_due"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
+                    android:layout_marginStart="4dp"
                     android:layout_weight="1"
                     android:textColor="@color/text_secondary"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/task_priority"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_priority"
+                    android:background="@drawable/bg_priority_high"
                     android:paddingHorizontal="8dp"
-                    android:paddingVertical="3dp"
-                    android:textColor="@android:color/white"
-                    android:textSize="11sp" />
+                    android:paddingVertical="4dp"
+                    android:textColor="@color/priority_high"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/task_category"
@@ -85,9 +88,10 @@
                     android:layout_marginStart="6dp"
                     android:background="@drawable/bg_chip"
                     android:paddingHorizontal="8dp"
-                    android:paddingVertical="3dp"
+                    android:paddingVertical="4dp"
                     android:textColor="@color/primary"
-                    android:textSize="11sp" />
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

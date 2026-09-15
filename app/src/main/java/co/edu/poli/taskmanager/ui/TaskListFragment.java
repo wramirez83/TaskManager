@@ -57,9 +57,29 @@ public class TaskListFragment extends Fragment {
         }, id -> viewModel.findCategory(id));
         binding.taskList.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.taskList.setAdapter(adapter);
+        binding.fabAddTask.setOnClickListener(v -> ((MainActivity) requireActivity()).openCreate());
         viewModel.getVisibleTasks().observe(getViewLifecycleOwner(), tasks -> {
             adapter.submit(tasks);
             binding.emptyState.setVisibility(tasks == null || tasks.isEmpty() ? View.VISIBLE : View.GONE);
+            int pending = 0;
+            if (tasks != null) {
+                for (Task task : tasks) {
+                    if (!task.completed) {
+                        pending++;
+                    }
+                }
+            }
+            binding.pendingCount.setText(getString(R.string.pending_count, pending));
+        });
+        viewModel.getFilter().observe(getViewLifecycleOwner(), filter -> {
+            if (filter == null || binding == null) {
+                return;
+            }
+            if (filter.kind == TaskFilter.Kind.ALL) {
+                binding.listTitle.setText(R.string.pending_and_completed);
+            } else {
+                binding.listTitle.setText(filter.title);
+            }
         });
     }
 

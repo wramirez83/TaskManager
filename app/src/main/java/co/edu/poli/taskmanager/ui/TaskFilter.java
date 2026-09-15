@@ -21,7 +21,7 @@ public class TaskFilter {
     }
 
     public static TaskFilter all() {
-        return new TaskFilter(Kind.ALL, "Lista de tareas", "");
+        return new TaskFilter(Kind.ALL, "Mis Tareas", "");
     }
 
     public static TaskFilter today() {

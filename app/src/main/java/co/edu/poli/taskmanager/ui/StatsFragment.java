@@ -33,23 +33,25 @@ public class StatsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         TaskViewModel viewModel = new ViewModelProvider(requireActivity()).get(TaskViewModel.class);
         viewModel.getStats().observe(getViewLifecycleOwner(), stats -> {
-            if (stats == null) {
+            if (stats == null || binding == null) {
                 return;
             }
             binding.donut.setProgress(stats.completedToday, Math.max(stats.total, 1));
+            binding.percentChip.setText(getString(R.string.percent_chip, stats.percent()));
             binding.completedRatio.setText(getString(
-                    R.string.completed_ratio, stats.completedToday, stats.total, stats.percent()
-            ));
-            bindStat(binding.statHigh, R.string.high, stats.high, R.color.priority_high);
-            bindStat(binding.statNormal, R.string.normal, stats.medium, R.color.stat_normal);
-            bindStat(binding.statLow, R.string.low, stats.low, R.color.priority_low);
-            bindStat(binding.statOverdue, R.string.overdue, stats.overdue, R.color.priority_overdue);
+                    R.string.completed_ratio, stats.completedToday, stats.total));
+            binding.completedPercent.setText(getString(R.string.completed_percent, stats.percent()));
+            bindStat(binding.statHigh, R.string.high, stats.high, R.color.priority_high, R.string.stat_high_caption);
+            bindStat(binding.statNormal, R.string.normal, stats.medium, R.color.stat_normal, R.string.stat_normal_caption);
+            bindStat(binding.statLow, R.string.low, stats.low, R.color.priority_low, R.string.stat_low_caption);
+            bindStat(binding.statOverdue, R.string.overdue, stats.overdue, R.color.priority_overdue, R.string.stat_overdue_caption);
         });
     }
 
-    private void bindStat(ItemStatBinding card, int label, int value, int colorRes) {
+    private void bindStat(ItemStatBinding card, int label, int value, int colorRes, int caption) {
         card.statLabel.setText(label);
         card.statValue.setText(String.valueOf(value));
+        card.statCaption.setText(caption);
         GradientDrawable dot = (GradientDrawable) card.statDot.getBackground().mutate();
         dot.setColor(ContextCompat.getColor(requireContext(), colorRes));
     }

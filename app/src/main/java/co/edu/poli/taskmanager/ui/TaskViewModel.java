@@ -61,11 +61,20 @@ public class TaskViewModel extends AndroidViewModel {
         long end = DateUtils.endOfDay(start);
         result.total = tasks.size();
         for (Task task : tasks) {
+            if (task.completed) {
+                result.completed++;
+            } else {
+                result.pending++;
+            }
             if (task.completed && task.completedAt >= start && task.completedAt < end) {
                 result.completedToday++;
             }
+            if (task.dueDate >= start && task.dueDate < end) {
+                result.today++;
+            }
             if (task.priority == Task.PRIORITY_HIGH) {
                 result.high++;
+                result.important++;
             } else if (task.priority == Task.PRIORITY_MEDIUM) {
                 result.medium++;
             } else {

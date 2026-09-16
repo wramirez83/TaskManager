@@ -10,19 +10,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/title">
+            android:hint="@string/title"
+            app:boxBackgroundColor="@color/surface"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/divider"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/text_secondary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapSentences" />
+                android:inputType="textCapSentences"
+                android:minHeight="44dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -30,7 +39,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="@string/description">
+            android:hint="@string/description"
+            app:boxBackgroundColor="@color/surface"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/divider"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/text_secondary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_description"
@@ -46,22 +63,23 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/date"
-            android:textColor="@color/text_primary"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/date_row"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_card"
+            android:background="@drawable/bg_input"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="14dp">
+            android:paddingHorizontal="10dp">
 
             <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_calendar"
                 app:tint="@color/primary" />
@@ -70,9 +88,10 @@
                 android:id="@+id/input_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="8dp"
                 android:text="@string/select_date"
-                android:textColor="@color/text_secondary" />
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
         </LinearLayout>
 
         <TextView
@@ -80,7 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/priority"
-            android:textColor="@color/text_primary"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <com.google.android.material.chip.ChipGroup
@@ -88,6 +108,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:background="@drawable/bg_input"
+            android:padding="10dp"
             app:selectionRequired="true"
             app:singleSelection="true">
 
@@ -128,7 +150,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/category"
-            android:textColor="@color/text_primary"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <com.google.android.material.chip.ChipGroup
@@ -136,16 +159,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:background="@drawable/bg_input"
+            android:padding="10dp"
             app:selectionRequired="true"
             app:singleSelection="true" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_save"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="24dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="32dp"
             android:backgroundTint="@color/primary"
             android:text="@string/save_task"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            app:cornerRadius="8dp" />
     </LinearLayout>
 </ScrollView>

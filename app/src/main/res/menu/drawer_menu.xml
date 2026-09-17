@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/nav_tasks"
+            android:icon="@drawable/ic_tasks"
+            android:title="@string/tasks" />
+        <item
+            android:id="@+id/nav_create"
+            android:icon="@drawable/ic_add_nav"
+            android:title="@string/create" />
+        <item
+            android:id="@+id/nav_stats"
+            android:icon="@drawable/ic_stats"
+            android:title="@string/stats" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_gallery"
+            android:title="@string/gallery" />
+        <item
+            android:id="@+id/nav_video"
+            android:icon="@drawable/ic_video"
+            android:title="@string/video" />
+        <item
+            android:id="@+id/nav_browser"
+            android:icon="@drawable/ic_web"
+            android:title="@string/browser" />
+    </group>
+</menu>

@@ -1,5 +1,6 @@
 package co.edu.poli.taskmanager.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.inputmethod.EditorInfo;
 import android.webkit.WebChromeClient;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Arrays;
 import java.util.List;
 
+import co.edu.poli.taskmanager.R;
 import co.edu.poli.taskmanager.databinding.FragmentBrowserBinding;
 import co.edu.poli.taskmanager.databinding.ItemResourceBinding;
 
@@ -70,12 +73,32 @@ public class BrowserFragment extends Fragment {
             }
             return false;
         });
+        binding.buttonBack.setOnClickListener(v -> {
+            if (binding.webView.canGoBack()) {
+                binding.webView.goBack();
+            } else {
+                showResources();
+            }
+        });
+        binding.buttonForward.setOnClickListener(v -> {
+            if (binding.webView.canGoForward()) {
+                binding.webView.goForward();
+            }
+        });
+        binding.buttonSharePage.setOnClickListener(v -> {
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.putExtra(Intent.EXTRA_TEXT, binding.urlBar.getText().toString());
+            startActivity(Intent.createChooser(share, getString(R.string.share)));
+        });
+        binding.buttonBookmark.setOnClickListener(v ->
+                Toast.makeText(requireContext(), R.string.browser_bookmark, Toast.LENGTH_SHORT).show());
     }
 
     private void showResources() {
         binding.webView.setVisibility(View.GONE);
         binding.resourcesPane.setVisibility(View.VISIBLE);
-        binding.urlBar.setText("taskmanager.app/recursos");
+        binding.urlBar.setText(R.string.browser_url);
     }
 
     private void openUrl(String url) {

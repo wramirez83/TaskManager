@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Task Manager</string>
+    <string name="splash_title">G3-HPMB01-Task Manager</string>
+    <string name="splash_logo_desc">Logo de Task Manager</string>
     <string name="hello_user">Hola, Usuario</string>
     <string name="my_account">Mi Cuenta</string>
     <string name="user_email">user@example.com</string>

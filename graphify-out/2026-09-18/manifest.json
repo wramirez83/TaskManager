@@ -1,0 +1,137 @@
+{
+  ".vscode/settings.json": {
+    "mtime": 1788841784.3634543,
+    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
+    "semantic_hash": ""
+  },
+  "app/build.gradle": {
+    "mtime": 1788922385.8879209,
+    "ast_hash": "530506ed8daa2c8f043d6f92b55f7228",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/MainActivity.java": {
+    "mtime": 1789760485.416899,
+    "ast_hash": "4367fd55f59e450626ad062fe842febc",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/data/AppDatabase.java": {
+    "mtime": 1789760516.8920646,
+    "ast_hash": "74e7d54201591a0a2d48586f90a990cf",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/data/Category.java": {
+    "mtime": 1788842635.9201574,
+    "ast_hash": "e2949e266f034af9985947c2d19a17d3",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/data/CategoryDao.java": {
+    "mtime": 1788922718.0305805,
+    "ast_hash": "f2ebf36fb25b431d8d48a15e0fb9b9e4",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/data/Task.java": {
+    "mtime": 1788921393.652288,
+    "ast_hash": "9486858f618766dad9877149e86bbdb3",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/data/TaskDao.java": {
+    "mtime": 1788921399.2509916,
+    "ast_hash": "0bbd0c7a99be8b7b7b18394a0a07f489",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/data/TaskRepository.java": {
+    "mtime": 1788922594.5559182,
+    "ast_hash": "db12be29ee38dc529d0442e48ec0b64f",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/ui/TaskAdapter.java": {
+    "mtime": 1789760497.8486588,
+    "ast_hash": "f21966e7a0c3a297448e7d4bf3110ee9",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/ui/TaskFilter.java": {
+    "mtime": 1789760513.35976,
+    "ast_hash": "aedcc1fcc5ad1c81f4d743a7fe08bb93",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/ui/TaskViewModel.java": {
+    "mtime": 1789760511.0683448,
+    "ast_hash": "820053d168024871b91c9cd36ddda5c7",
+    "semantic_hash": ""
+  },
+  "build.gradle": {
+    "mtime": 1788842391.263126,
+    "ast_hash": "636e7c50bdb1ba0ec897e61380b2764e",
+    "semantic_hash": ""
+  },
+  "gradlew": {
+    "mtime": 1788842568.5168626,
+    "ast_hash": "45bf2667b1fbec0e07e42808dc662b6b",
+    "semantic_hash": ""
+  },
+  "settings.gradle": {
+    "mtime": 1788842391.200096,
+    "ast_hash": "9a21c92ac3386e17bb57c71110e5fef1",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/data/Photo.java": {
+    "mtime": 1788921394.647863,
+    "ast_hash": "5b07d86e3314b7653cfeed4007bd0a24",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/data/PhotoDao.java": {
+    "mtime": 1788922710.1091435,
+    "ast_hash": "35b710dd255177bbf32c8a84af0a475b",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/ui/BrowserFragment.java": {
+    "mtime": 1789760521.471237,
+    "ast_hash": "379a155df725bfdbf86ff12a81f1c7f9",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/ui/CreateTaskFragment.java": {
+    "mtime": 1788922593.1506746,
+    "ast_hash": "7407c39026e7f753a6a921260cf07c1f",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/ui/DonutChartView.java": {
+    "mtime": 1789760503.823199,
+    "ast_hash": "87c3d99d059f324bb7d67c6ae19265a6",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/ui/GalleryFragment.java": {
+    "mtime": 1788921667.087721,
+    "ast_hash": "27983f5828fc16b859c7f9481b91c1b7",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/ui/HomeFragment.java": {
+    "mtime": 1789760488.4355166,
+    "ast_hash": "f4d9d28f3f3adef488fb52959afb0818",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/ui/StatsFragment.java": {
+    "mtime": 1789760503.8233936,
+    "ast_hash": "826ca4405570b53a742beb9816e48b4a",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/ui/TaskListFragment.java": {
+    "mtime": 1789760493.9082706,
+    "ast_hash": "44cb5a6d7607c8f25700494ccca70712",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/ui/TaskStats.java": {
+    "mtime": 1789760503.823251,
+    "ast_hash": "9e7c0f44a45292d3e6452070712ad7db",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/ui/VideoFragment.java": {
+    "mtime": 1788921643.7430549,
+    "ast_hash": "850880b91993f44966d77aed2ff35dd4",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/co/edu/poli/taskmanager/util/DateUtils.java": {
+    "mtime": 1789760514.6260877,
+    "ast_hash": "78379b2f79db67b1cd4cd57010b17845",
+    "semantic_hash": ""
+  }
+}
